@@ -3,7 +3,7 @@ TAG=0.1.0
 PROJECT_DIRECTORY=$(shell pwd)
 MODEL_FILE=models/unilm/publaynet_dit-b_cascade.pth
 
-build:
+docker-build:
 	mkdir -p models/unilm 
 	if [ ! -f $(MODEL_FILE) ]; then \
 		wget "https://huggingface.co/Sebas6k/DiT_weights/resolve/main/publaynet_dit-b_cascade.pth?download=true" -P models/unilm -O publaynet_dit-b_cascade.pth; \
@@ -13,10 +13,10 @@ build:
 
 get_models:
 	if [ ! -f $(MODEL_FILE) ]; then \
-		wget "https://layoutlm.blob.core.windows.net/dit/dit-fts/publaynet_dit-b_cascade.pth?sv=2022-11-02&ss=b&srt=o&sp=r&se=2033-06-08T16:48:15Z&st=2023-06-08T08:48:15Z&spr=https&sig=a9VXrihTzbWyVfaIDlIT1Z0FoR1073VB0RLQUMuudD4%3D" -P models/unilm -O publaynet_dit-b_cascade.pth; \
+		wget "https://huggingface.co/Sebas6k/DiT_weights/resolve/main/publaynet_dit-b_cascade.pth?download=true" -P models/unilm -O publaynet_dit-b_cascade.pth; \
 	fi
 
-run:
+docker-run:
 	docker run -it \
 		--runtime=nvidia \
 		--name pdf-translator \
@@ -33,3 +33,6 @@ run-bash:
 		--gpus all \
 		-p 8765:8765 \
 		${NAME}:${TAG} /bin/bash
+
+install-cn-font:
+	wget https://github.com/Haixing-Hu/latex-chinese-fonts/blob/master/chinese/%E5%AE%8B%E4%BD%93/STSong.ttf?raw=true -O ./fonts/STSong.ttf

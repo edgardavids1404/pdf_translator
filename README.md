@@ -10,8 +10,8 @@ This repository is inspired by [ppisljar/pdf-translator](https://github.com/ppis
 - Use single process for ocr / layout model to **save vram**
 - Use LLM for reference checking (fix the bug of supplemental translation)
 
-## Introduction
-### 1. About the GUI
+## 1.Introduction
+### 1.1 About the GUI
 <h5 align="center">
   This repository offers an WebUI and API endpoint that translates PDF files using openai GPT, preserving the original layout.
 </h5>
@@ -55,8 +55,8 @@ This repository is inspired by [ppisljar/pdf-translator](https://github.com/ppis
 
 
 
-## Installation (To be updated)
-
+## 2.Installation 
+### 2.0 Prerequisites
 1. **Clone this repository**
 
 ```bash
@@ -64,54 +64,65 @@ This repository is inspired by [ppisljar/pdf-translator](https://github.com/ppis
    cd LLM_PDF_Translator
 ```
 
-2. **Edit config.yaml and enter openai api key**
-change type to 'openai' and enter your key under api_key
-if this is not changed translation engine will default to google translate
+### 2.1 Local installation
+1. **prerequesites:**
+- Basically ffmpeg and the font you want to use
+- Check if you wants to use `uv` or `venv` for individual installation
 
-
-### docker installation
-
-3. **Build the docker image via Makefile**
-
-```bash
-   make build
+2. **Install the dependencies**
+- (Recommand)If you are using `uv`, run the following command
+```shell
+uv sync
+uv pip install git+https://github.com/facebookresearch/detectron2.git
+```
+- Otherwise, run the following command
+```shell
+pip install -r requirements.txt
+pip install git+https://github.com/facebookresearch/detectron2.git
 ```
 
-4. **Run the docker container via Makefile**
+### 2.2 docker installation
+
+1. **Build the docker image via Makefile**
 
 ```bash
-   make run
+make docker-build
 ```
 
-### venv installation
-
-3. **create venv and activte**
-
-prerequesites:
-- ffmpeg, ... possibly more, check Dockerfile if you are running into issues
-
-```bash
-python3 -m venv .
-source bin/activate
-```
-
-4. **install requirements**
-
-```bash
-pip3 install -r requirements.txt
-pip3 install "git+https://github.com/facebookresearch/detectron2.git"
-```
-
-5. **get models**
+## 3. Run the server
+### 3.1 Download the model
 
 ```bash
 make get_models
 ```
+### 3.2 Check the config.yaml and the fonts
 
-6. **run**
+1. **Edit config.yaml**
+- The `type` could be `ollama`, `openai`, `qwen`, or `google`.
+- The `api_key` is the corresponding API key.
+- The `model` is the specific model name you want to use.
 
+2. **Check the font you want to use in the 'render' part of config.yaml**
+For a basic demo, you can download the font by:
+```bash
+make install-cn-font
+```
+
+### 3.3 Local run
+If you are using `uv`:
+```bash
+uv run server.py
+```
+Otherwise
 ```bash
 python3 server.py
+```
+
+### 3.4 Docker run
+1. **Run the docker container via Makefile**
+
+```bash
+make docker-run
 ```
 
 ## GUI Usage

@@ -18,8 +18,8 @@ ocr:
 render:
   # type: 'simple'
   type: 'reportlab'
-  font_name: 'SourceHanSerifSC-Medium'
-  font_path: '/usr/share/fonts/SourceHanSerifSC/SimplifiedChinese/SourceHanSansSC-VF.ttf' # only support ttf font
+  font_name: 'STSong'
+  font_path: './fonts/STSong.ttf'
   render_mode: INTERLEAVE # TRANSLATION_ONLY / SIDE_BY_SIDE / INTERLEAVE
 
 multi_thread:

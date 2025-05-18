@@ -14,11 +14,10 @@ RUN apt-get update \
         wget \
         curl \
         git \
-        python3-dev \
-        python3-pip \
         ffmpeg \
         libsm6 \
         libxext6 \
+    && curl -LsSf https://astral.sh/uv/install.sh | sh \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/* /var/tmp/*
@@ -27,7 +26,7 @@ WORKDIR /app
 
 ADD . /app/
 
-RUN pip install -r requirements.txt
-RUN pip install "git+https://github.com/facebookresearch/detectron2.git"
+RUN /root/.local/bin/uv sync
+RUN /root/.local/bin/uv pip install --no-build-isolation "git+https://github.com/facebookresearch/detectron2.git"
 
-ENTRYPOINT [ "python3", "server.py" ]
+ENTRYPOINT [ "/root/.local/bin/uv", "run", "server.py" ]

@@ -268,11 +268,13 @@ def lang_widget(langs: list[str]):
 
 
 class DetermineSaveInFolderToTmpWidget:
-    def __init__(self):
+    def __init__(self, save_folder, translate_folder):
         self.save_folder, self.translate_folder = (
-            "/home/home/Docs/Papers",
-            "/home/home/Docs/Papers",
+            os.path.abspath(save_folder),
+            os.path.abspath(translate_folder),
         )
+        logger.info(f"The downloaded files will be saved in {self.save_folder}")
+        logger.info(f"The translated files will be saved in {self.translate_folder}")
         self.save_to_folder = False
 
     def update_save_folder(self, selected_folder, info):
@@ -357,14 +359,14 @@ class DetermineSaveInFolderToTmpWidget:
         return save_to_folder_checkbox, save_folder, translate_folder
 
 class GradioApp:
-    def __init__(self, langs, config):
+    def __init__(self, langs, config: dict):
         self.langs = langs
         self.config = config
         self.check_db(config)
         try:
-            self.config.auth
+            self.config['auth']
         except:
-            self.config.auth = None
+            self.config['auth'] = None
 
     def check_db(self, config):
         basic_info_db = BasicInfoDatabase(self.config['database_name'])
@@ -379,7 +381,7 @@ class GradioApp:
             with gr.Column() as col:
                 title = gr.Markdown("## PDF Translator")
                 file = gr.File(label="select file", height=30, file_types=[".pdf"])
-                save_to_dir_widget = DetermineSaveInFolderToTmpWidget()
+                save_to_dir_widget = DetermineSaveInFolderToTmpWidget(self.config['download_folder'], self.config['translate_folder'])
                 save_folder_checkbox, save_folder, translate_folder = (
                     save_to_dir_widget.get_widgets()
                 )
@@ -571,11 +573,10 @@ class GradioApp:
         )
 
         # page.launch(share=False, auth=("poppanda", "poppanda"), server_port=8765, server_name="0.0.0.0")
-        if self.config.auth is None:
+        if self.config['auth'] is None:
             page.auth = [("admin", "password")]
         else:
-            page.auth=self.config.auth
-        # page.auth_message = None
+            page.auth=self.config['auth']
 
         return page
 
