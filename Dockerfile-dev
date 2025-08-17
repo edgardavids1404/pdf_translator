@@ -30,4 +30,5 @@ ADD . /app/
 # RUN /root/.local/bin/uv pip install --no-build-isolation "git+https://github.com/facebookresearch/detectron2.git"
 
 # ENTRYPOINT [ "/root/.local/bin/uv", "run", "server.py" ]
+#
 CMD ["bash"]
