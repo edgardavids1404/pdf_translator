@@ -9,7 +9,7 @@ docker-build:
 		wget "https://huggingface.co/Sebas6k/DiT_weights/resolve/main/publaynet_dit-b_cascade.pth?download=true" -P models/unilm -O publaynet_dit-b_cascade.pth; \
 	fi
 
-	docker build --network=host -t ${NAME}:${TAG} .
+	docker build -t ${NAME}:${TAG} .
 
 get_models:
 	if [ ! -f $(MODEL_FILE) ]; then \
