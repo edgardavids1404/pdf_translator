@@ -28,4 +28,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: edgardavids1404/whisperx_docker:latest
+          tags: edgardavids1404/pdf_translator:latest
