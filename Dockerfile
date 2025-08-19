@@ -26,8 +26,8 @@ WORKDIR /app
 
 ADD . /app/
 
-RUN /root/.local/bin/uv sync --path /app/.venv
-RUN /root/.local/bin/uv pip install --no-build-isolation --path /app/.venv "git+https://github.com/facebookresearch/detectron2.git"
+RUN . /app/.venv/bin/activate && /root/.local/bin/uv sync
+RUN . /app/.venv/bin/activate && /root/.local/bin/uv pip install --no-build-isolation "git+https://github.com/facebookresearch/detectron2.git"
 
 ENV PATH="/app/.venv/bin:$PATH"
 
